@@ -4,7 +4,7 @@
   var Asteroids = root.Asteroids = root.Asteroids || {};
   var MovingObject = Asteroids.MovingObject;
 
-  var COLOR = "black",
+  var COLOR = "white",
       RADIUS = 2,
       SPEED_MULTIPLIER = 10;
 

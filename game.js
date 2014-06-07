@@ -172,7 +172,7 @@
   };
 
   Game.prototype.showScore = function() {
-    this.context.fillStyle = "black";
+    this.context.fillStyle = "white";
     this.context.font = "normal 20pt Courier ";
     this.context.fillText(
       "Current score: " + this.hitAsteroids,
