@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+  <body>
+    <canvas id="game-canvas"></canvas>
+
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="inherits.js"></script>
+    <script src="moving_object.js"></script>
+    <script src="asteroid.js"></script>
+    <script src="bullet.js"></script>
+    <script src="ship.js"></script>
+    <script src="game.js"></script>
+    <script>
+      (function() {
+        var canvas = document.getElementById('game-canvas'),
+            gameHeight = document.documentElement.clientHeight,
+            gameWidth = document.documentElement.clientWidth;
+
+        canvas.setAttribute('height', gameHeight);
+        canvas.setAttribute('width', gameWidth);
+
+        new Asteroids.Game(canvas.getContext('2d'), gameHeight, gameWidth).start();
+      })();
+    </script>
+  </body>
+</html>
