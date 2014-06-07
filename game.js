@@ -39,9 +39,11 @@
   };
 
   Game.prototype.draw = function() {
-    var context = this.context;
+    var context = this.context,
+        shipPos = this.ship.pos;
     context.clearRect(0, 0, this.width, this.height);
     this.asteroids.forEach(function(asteroid) {
+      asteroid.updateDirection(shipPos);
       asteroid.draw(context);
     });
     this.bullets.forEach(function(bullet) {

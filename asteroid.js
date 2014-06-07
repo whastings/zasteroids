@@ -11,17 +11,32 @@
     Asteroids.MovingObject.call(this, pos, vel, RADIUS, COLOR);
     this.image = new Image();
     this.image.src = 'images/zombie.png';
+    this.currentDirection = 0;
   };
   Asteroid.inherits(Asteroids.MovingObject);
 
   Asteroid.prototype.draw = function(context) {
     var sizeOffset = Math.floor(RADIUS * 0.95),
         size = Math.floor(RADIUS * 2.1);
+    context.save();
+    context.translate(this.pos[0], this.pos[1]);
+    context.rotate(Math.PI * 1.5 + this.currentDirection);
     context.drawImage(
       this.image,
-      this.pos[0] - sizeOffset, this.pos[1] - sizeOffset, // Start x, start y.
+      -RADIUS, -RADIUS, // Start x, start y.
       size, size // width, height
     );
+    context.restore();
+  };
+
+  Asteroid.prototype.updateDirection = function(targetPos) {
+    var aX = this.pos[0],
+        aY = this.pos[1],
+        tX = targetPos[0],
+        tY = targetPos[1];
+    var opposite = tY - aY,
+        adjacent = tX - aX;
+    this.currentDirection = Math.atan2(opposite, adjacent);
   };
 
   Asteroid.randomAsteroid = function(dimX, dimY) {
