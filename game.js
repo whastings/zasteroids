@@ -18,6 +18,7 @@
     this.ship = new Ship([this.width / 2, this.height / 2]);
     this.bullets = [];
     this.hitAsteroids = 0;
+    this.paused = false;
     document.addEventListener('keydown', this.handleKeyPress.bind(this), false);
   };
 
@@ -63,6 +64,9 @@
       event.preventDefault();
     }
     switch (event.keyCode) {
+    case 13:
+      this.paused ? this.start() : this.pause();
+      break;
     case 38:
       this.ship.power(1);
       break;
@@ -156,6 +160,11 @@
     return false;
   };
 
+  Game.prototype.pause = function() {
+    this.paused = true;
+    clearInterval(this.interval);
+  };
+
   Game.prototype.resetAsteroids = function() {
     var asteroidsNeeded = NUM_ASTEROIDS - this.asteroids.length;
     if (asteroidsNeeded > 0) {
@@ -185,6 +194,7 @@
   };
 
   Game.prototype.start = function() {
+    this.paused = false;
     this.interval = setInterval(Game.prototype.step.bind(this), FPS);
   };
 
