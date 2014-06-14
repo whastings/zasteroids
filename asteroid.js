@@ -6,16 +6,45 @@
   var SPEED_FACTOR = 2;
 
   var Asteroids = root.Asteroids = root.Asteroids || {};
+  var MovingObject = Asteroids.MovingObject;
+
+  var GRAVE_IMAGES = [
+    'images/gravestone-cross.png',
+    'images/gravestone-face.png',
+    'images/gravestone-rip.png'
+  ].map(function(imageSrc) {
+    var image = new Image();
+    image.src = imageSrc;
+    return image;
+  });
 
   var Asteroid = Asteroids.Asteroid = function(pos, vel) {
-    Asteroids.MovingObject.call(this, pos, vel, RADIUS, COLOR);
+    MovingObject.call(this, pos, vel, RADIUS, COLOR);
     this.image = new Image();
     this.image.src = 'images/zombie.png';
     this.currentDirection = 0;
+    this.moving = false;
+    this.scheduleMovement();
   };
-  Asteroid.inherits(Asteroids.MovingObject);
+  Asteroid.inherits(MovingObject);
 
   Asteroid.prototype.draw = function(context) {
+    return this.moving ? this.drawZombie(context) : this.drawGrave(context);
+  };
+
+  Asteroid.prototype.drawGrave = function(context) {
+    if (this.graveChoice === undefined) {
+      this.graveChoice = Math.floor(Math.random() * GRAVE_IMAGES.length);
+    }
+    var graveImage = GRAVE_IMAGES[this.graveChoice];
+    context.drawImage(
+      graveImage,
+      this.pos[0] - RADIUS, this.pos[1] - RADIUS, // Start x, start y.
+      graveImage.naturalWidth, graveImage.naturalHeight // width, height
+    );
+  };
+
+  Asteroid.prototype.drawZombie = function(context) {
     var sizeOffset = Math.floor(RADIUS * 0.95),
         size = Math.floor(RADIUS * 2.1);
     context.save();
@@ -29,6 +58,25 @@
     context.restore();
   };
 
+  Asteroid.prototype.isCollidedWith = function(otherObject) {
+    if (this.moving) {
+      return MovingObject.prototype.isCollidedWith.call(this, otherObject);
+    }
+    return false;
+  };
+
+  Asteroid.prototype.move = function() {
+    if (this.moving) {
+      MovingObject.prototype.move.call(this);
+    }
+  };
+
+  Asteroid.prototype.scheduleMovement = function() {
+    setTimeout(function() {
+      this.moving = true;
+    }.bind(this), 1500);
+  };
+
   Asteroid.prototype.updateDirection = function(targetPos) {
     var aX = this.pos[0],
         aY = this.pos[1],
@@ -40,8 +88,8 @@
   };
 
   Asteroid.randomAsteroid = function(dimX, dimY) {
-    var posX = Math.floor(Math.random() * dimX);
-    var posY = Math.floor(Math.random() * dimY);
+    var posX = Math.floor(Math.random() * (dimX - 200) + 100);
+    var posY = Math.floor(Math.random() * (dimY - 200) + 100);
 
     var vel = [Asteroid.randomVec(), Asteroid.randomVec()];
 
