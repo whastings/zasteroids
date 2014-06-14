@@ -35,7 +35,7 @@
     this.checkOutOfBounds(this.asteroids);
     this.checkOutOfBounds(this.bullets);
     if (this.isOutOfBounds(this.ship)) {
-      this.ship.pos = ([this.width / 2, this.height / 2]);
+      this.ship.wrapAround(this.width, this.height);
     }
   };
 
