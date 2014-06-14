@@ -6,15 +6,15 @@
   var Ship = Asteroids.Ship;
 
   var SCORE_X = 50,
-      FPS = 30,
-      NUM_ASTEROIDS = 3;
+      FPS = 30;
 
   var Game = Asteroids.Game = function(context, height, width) {
     this.context = context;
     this.height = height;
     this.width = width;
     this.asteroids = [];
-    this.addAsteroids(NUM_ASTEROIDS);
+    this.calculateNumAsteroids();
+    this.addAsteroids(this.numAsteroids);
     this.ship = new Ship([this.width / 2, this.height / 2]);
     this.bullets = [];
     this.hitAsteroids = 0;
@@ -28,6 +28,10 @@
       asteroids.push(Asteroid.randomAsteroid(this.width, this.height));
     }
     this.asteroids = this.asteroids.concat(asteroids);
+  };
+
+  Game.prototype.calculateNumAsteroids = function() {
+    this.numAsteroids = this.width / 100 / 2;
   };
 
   Game.prototype.cleanUp = function() {
@@ -166,7 +170,7 @@
   };
 
   Game.prototype.resetAsteroids = function() {
-    var asteroidsNeeded = NUM_ASTEROIDS - this.asteroids.length;
+    var asteroidsNeeded = this.numAsteroids - this.asteroids.length;
     if (asteroidsNeeded > 0) {
       this.addAsteroids(asteroidsNeeded);
     }
