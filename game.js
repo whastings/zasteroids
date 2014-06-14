@@ -183,12 +183,12 @@
   };
 
   Game.prototype.showScore = function() {
-    this.context.fillStyle = "white";
-    this.context.font = "normal 20pt Courier ";
+    this.context.fillStyle = "#ff0000";
+    this.context.font = "normal 20pt Finger Paint";
     this.context.fillText(
       "Current score: " + this.hitAsteroids,
       SCORE_X,
-      this.height - 30
+      40
     );
 
   };
