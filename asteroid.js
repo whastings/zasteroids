@@ -71,10 +71,22 @@
     }
   };
 
+  Asteroid.prototype.reset = function(dimX, dimY) {
+    this.setRandom(dimX, dimY);
+    this.moving = false;
+    this.scheduleMovement();
+  };
+
   Asteroid.prototype.scheduleMovement = function() {
     setTimeout(function() {
       this.moving = true;
     }.bind(this), 1500);
+  };
+
+  Asteroid.prototype.setRandom = function(dimX, dimY) {
+    this.pos[0] = Math.floor(Math.random() * (dimX - 200) + 100);
+    this.pos[1] = Math.floor(Math.random() * (dimY - 200) + 100);
+    this.vel = [Asteroid.randomVec(), Asteroid.randomVec()];
   };
 
   Asteroid.prototype.updateDirection = function(targetPos) {
@@ -88,12 +100,9 @@
   };
 
   Asteroid.randomAsteroid = function(dimX, dimY) {
-    var posX = Math.floor(Math.random() * (dimX - 200) + 100);
-    var posY = Math.floor(Math.random() * (dimY - 200) + 100);
-
-    var vel = [Asteroid.randomVec(), Asteroid.randomVec()];
-
-    return new Asteroid([posX, posY], vel);
+    var asteroid = new Asteroid([0, 0], 0);
+    asteroid.setRandom(dimX, dimY);
+    return asteroid;
   };
 
   Asteroid.randomVec = function(){
@@ -101,6 +110,5 @@
     vel *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
     return vel;
   };
-
 
 })(this);
