@@ -10,3 +10,27 @@ body {
   position: absolute;
   right: 60px;
 }
+
+.message-box {
+  background-color: #000;
+  border: 2px #ff0000 solid;
+  height: 370px;
+  left: 50%;
+  margin-left: -150px;
+  margin-top: -185px;
+  position: absolute;
+  top: 50%;
+  width: 300px;
+}
+
+.message-header {
+  font-size: 170%;
+  margin-bottom: 80px;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.message-body {
+  font-size: 120%;
+  text-align: center;
+}

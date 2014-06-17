@@ -24,7 +24,6 @@
     this.image.src = 'images/zombie.png';
     this.currentDirection = 0;
     this.moving = false;
-    this.scheduleMovement();
   };
   Asteroid.inherits(MovingObject);
 

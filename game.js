@@ -9,19 +9,21 @@
   var SCORE_X = 50,
       FPS = 30;
 
-  var Game = Asteroids.Game = function(context, height, width) {
+  var Game = Asteroids.Game = function(context, height, width, ui) {
     this.context = context;
     this.height = height;
     this.width = width;
     this.calculateNumAsteroids();
     this.asteroids = [];
     this.pool = new AsteroidPool(this.numAsteroids, width, height);
-    this.addAsteroids(this.numAsteroids);
     this.ship = new Ship([this.width / 2, this.height / 2]);
     this.bullets = [];
     this.hitAsteroids = 0;
-    this.paused = false;
-    document.addEventListener('keydown', this.handleKeyPress.bind(this), false);
+    this.paused = true;
+    this.over = false;
+    this.ui = ui;
+    this.keyHandler = this.handleKeyPress.bind(this);
+    document.addEventListener('keydown', this.keyHandler, false);
   };
 
   Game.prototype.addAsteroids = function(numAsteroids) {
@@ -75,7 +77,7 @@
     }
     switch (event.keyCode) {
     case 13:
-      this.paused ? this.start() : this.pause();
+      this.paused || this.over ? this.start() : this.pause();
       break;
     case 38:
       this.ship.power(1);
@@ -182,6 +184,14 @@
     }
   };
 
+  Game.prototype.restart = function() {
+    document.removeEventListener('keydown', this.keyHandler);
+    var newGame = new Game(this.context, this.height, this.width, this.ui);
+    setTimeout(function() {
+      newGame.start();
+    }, 0);
+  };
+
   Game.prototype.step = function() {
     this.move();
     this.draw();
@@ -200,17 +210,22 @@
       SCORE_X,
       40
     );
-
   };
 
   Game.prototype.start = function() {
+    if (this.over) {
+      return this.restart();
+    }
     this.paused = false;
+    this.ui.hide();
+    this.resetAsteroids();
     this.interval = setInterval(Game.prototype.step.bind(this), FPS);
   };
 
   Game.prototype.stop = function() {
-    alert("Game Over. You hit " + this.hitAsteroids + " asteroids.");
     clearInterval(this.interval);
+    this.over = true;
+    this.ui.showGameOver();
   };
 
 })(this);

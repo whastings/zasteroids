@@ -16,6 +16,11 @@
       Space to Fire &bull; Enter to Pause/Resume
     </div>
 
+    <div class="message-box">
+      <div class="message-header">Zasteroids</div>
+      <div class="message-body">Press ENTER to play.</div>
+    </div>
+
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="inherits.js"></script>
     <script src="moving_object.js"></script>
@@ -23,17 +28,24 @@
     <script src="bullet.js"></script>
     <script src="ship.js"></script>
     <script src="asteroid_pool.js"></script>
+    <script src="game_ui.js"></script>
     <script src="game.js"></script>
     <script>
       (function() {
         var canvas = document.getElementById('game-canvas'),
             gameHeight = document.documentElement.clientHeight,
-            gameWidth = document.documentElement.clientWidth;
+            gameWidth = document.documentElement.clientWidth,
+            messageBox = document.querySelector('.message-box');
 
         canvas.setAttribute('height', gameHeight);
         canvas.setAttribute('width', gameWidth);
 
-        new Asteroids.Game(canvas.getContext('2d'), gameHeight, gameWidth).start();
+        new Asteroids.Game(
+          canvas.getContext('2d'),
+          gameHeight,
+          gameWidth,
+          new Asteroids.GameUI(messageBox)
+        );
       })();
     </script>
   </body>
