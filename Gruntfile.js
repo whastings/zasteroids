@@ -6,17 +6,6 @@ module.exports = function(grunt) {
         src: ['build/**/*']
       }
     },
-    concat: {
-      build: {
-        src: [
-          'bower_components/underscore/underscore.js',
-          'js/inherits.js', 'js/moving_object.js', 'js/asteroid.js',
-          'js/asteroid_pool.js', 'js/bullet.js', 'js/ship.js',
-          'js/game.js', 'js/game_ui.js'
-        ],
-        dest: 'build/app.js'
-      }
-    },
     copy: {
       build: {
         expand: true,
@@ -41,15 +30,27 @@ module.exports = function(grunt) {
           'build/index.html': ['build/app.js']
         }
       }
+    },
+    uglify: {
+      build: {
+        files: {
+          'build/app.js': [
+            'bower_components/underscore/underscore.js',
+            'js/inherits.js', 'js/moving_object.js', 'js/asteroid.js',
+            'js/asteroid_pool.js', 'js/bullet.js', 'js/ship.js',
+            'js/game.js', 'js/game_ui.js'
+          ]
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-injector');
 
   grunt.registerTask('build', [
-    'clean', 'copy:build', 'concat:build', 'injector'
+    'clean', 'copy:build', 'uglify:build', 'injector'
   ]);
 };
