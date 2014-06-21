@@ -4,18 +4,32 @@
   var Asteroids = root.Asteroids = root.Asteroids || {};
   var Bullet = Asteroids.Bullet;
 
-  var RADIUS = 20,
-      MAX_POWER = 3,
+  var RADIUS = 30,
+      MAX_POWER = 5,
       COLOR = "blue";
 
   var Ship = Asteroids.Ship = function(pos) {
     Asteroids.MovingObject.call(this, pos, [0, 0], RADIUS, COLOR);
-    //will now be the degree that we are pointing
-    this.currentDirection = 0;
+    this.image = new Image();
+    this.image.src = 'images/penguin.png';
+    this.currentDirection = 45;
     this.speed = 0;
   };
   Ship.inherits(Asteroids.MovingObject);
 
+  Ship.prototype.draw = function(context) {
+    var size = Math.floor(RADIUS * 2.1),
+        angle = this.currentDirection * (Math.PI / 180) + (Math.PI * 0.5);
+    context.save();
+    context.translate(this.pos[0], this.pos[1]);
+    context.rotate(angle);
+    context.drawImage(
+      this.image,
+      -RADIUS, -RADIUS, // Start x, start y.
+      size, size // width, height
+    );
+    context.restore();
+  };
 
   Ship.prototype.fireBullet = function(){
     return new Bullet(this.pos, this.vel);

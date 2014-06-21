@@ -44,8 +44,7 @@
   };
 
   Asteroid.prototype.drawZombie = function(context) {
-    var sizeOffset = Math.floor(RADIUS * 0.95),
-        size = Math.floor(RADIUS * 2.1);
+    var size = Math.floor(RADIUS * 2.1);
     context.save();
     context.translate(this.pos[0], this.pos[1]);
     context.rotate(Math.PI * 1.5 + this.currentDirection);
