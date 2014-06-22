@@ -3,7 +3,7 @@
 
   var COLOR = "gray";
   var RADIUS = 40;
-  var SPEED_FACTOR = 2;
+  var SPEED_FACTOR = 150;
 
   var Asteroids = root.Asteroids = root.Asteroids || {};
   var MovingObject = Asteroids.MovingObject;
@@ -63,9 +63,9 @@
     return false;
   };
 
-  Asteroid.prototype.move = function() {
+  Asteroid.prototype.move = function(currentFps) {
     if (this.moving) {
-      MovingObject.prototype.move.call(this);
+      MovingObject.prototype.move.call(this, currentFps);
     }
   };
 
@@ -84,7 +84,8 @@
   Asteroid.prototype.setRandom = function(dimX, dimY) {
     this.pos[0] = Math.floor(Math.random() * (dimX - 200) + 100);
     this.pos[1] = Math.floor(Math.random() * (dimY - 200) + 100);
-    this.vel = [Asteroid.randomVec(), Asteroid.randomVec()];
+    this.vel[0] = Asteroid.randomVec();
+    this.vel[1] = Asteroid.randomVec();
   };
 
   Asteroid.prototype.updateDirection = function(targetPos) {
@@ -104,7 +105,7 @@
   };
 
   Asteroid.randomVec = function(){
-    var vel = Math.random() * SPEED_FACTOR + 1;
+    var vel = Math.random() * SPEED_FACTOR + 20;
     vel *= Math.floor(Math.random() * 2) == 1 ? 1 : -1;
     return vel;
   };

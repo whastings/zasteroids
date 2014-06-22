@@ -24,7 +24,7 @@
     var self = this;
     _.times(num, function() {
       self.pool.push(
-        new Asteroid([0, 0], 0)
+        new Asteroid([0, 0], [0, 0])
       );
     });
   };

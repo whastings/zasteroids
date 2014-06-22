@@ -6,6 +6,17 @@
     this.element = element;
     this.messageHeader = element.querySelector('.message-header');
     this.messageBody = element.querySelector('.message-body');
+    this.previousTime = 0;
+  };
+
+  GameUI.prototype.calculateFps = function(currentTime) {
+    var fps = 1000 / (currentTime - this.previousTime);
+    this.previousTime = currentTime;
+    return fps;
+  };
+
+  GameUI.prototype.clone = function() {
+    return new GameUI(this.element);
   };
 
   GameUI.prototype.hide = function() {

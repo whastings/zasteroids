@@ -10,12 +10,16 @@
     this.color = color;
   };
 
-  MovingObject.prototype.move = function() {
+  MovingObject.prototype.move = function(currentFps) {
+    if (!this.isMoving()) {
+      return;
+    }
     var posX = this.pos[0],
         posY = this.pos[1],
-        velX = this.vel[0],
-        velY = this.vel[1];
-    this.pos = [posX + velX, posY + velY];
+        velX = this.vel[0] / currentFps,
+        velY = this.vel[1] / currentFps;
+    this.pos[0] = posX + velX;
+    this.pos[1] = posY + velY;
   };
 
   MovingObject.prototype.draw = function(context) {
@@ -51,5 +55,7 @@
     return (distance < (this.radius + otherObject.radius));
   };
 
-
+  MovingObject.prototype.isMoving = function() {
+    return this.vel[0] !== 0 || this.vel[1] !== 0;
+ };
 })(this);

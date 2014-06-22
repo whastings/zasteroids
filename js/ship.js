@@ -5,8 +5,9 @@
   var Bullet = Asteroids.Bullet;
 
   var RADIUS = 30,
-      MAX_POWER = 5,
-      COLOR = "blue";
+      MAX_POWER = 200,
+      COLOR = "blue",
+      POWER_INCREMENT = 50;
 
   var Ship = Asteroids.Ship = function(pos) {
     Asteroids.MovingObject.call(this, pos, [0, 0], RADIUS, COLOR);
@@ -32,18 +33,18 @@
   };
 
   Ship.prototype.fireBullet = function(){
-    return new Bullet(this.pos, this.vel);
+    return new Bullet(this.pos.slice(), this.vel.slice());
   };
 
-  Ship.prototype.power = function(impulse) {
-    this.speed += impulse;
+  Ship.prototype.power = function(increase) {
+    var increment = POWER_INCREMENT * (increase ? 1 : -1);
+    this.speed += increment;
     if (this.speed < 0){
       this.speed = 0;
     } else if (this.speed > MAX_POWER ){
       this.speed = MAX_POWER;
     }
     this.updateVelocity();
-
   };
 
   Ship.prototype.rotate = function(clockwise) {
@@ -65,7 +66,6 @@
 
     this.vel[0] = Math.cos(degrees * (Math.PI / 180)) * this.speed;
     this.vel[1] = Math.sin(degrees * (Math.PI / 180)) * this.speed;
-
   };
 
   Ship.prototype.wrapAround = function(maxWidth, maxHeight) {

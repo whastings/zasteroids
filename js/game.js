@@ -24,6 +24,8 @@
     this.ui = ui;
     this.keyHandler = this.handleKeyPress.bind(this);
     document.addEventListener('keydown', this.keyHandler, false);
+    this.rafCallback = this.rafCallback || this.step.bind(this);
+    window.requestAnimationFrame(this.rafCallback);
   };
 
   Game.prototype.addAsteroids = function(numAsteroids) {
@@ -67,6 +69,9 @@
   };
 
   Game.prototype.fireBullet = function() {
+    if (!this.ship.isMoving()) {
+      return;
+    }
     var bullet = this.ship.fireBullet();
     this.bullets.push(bullet);
   };
@@ -80,31 +85,30 @@
       this.paused || this.over ? this.start() : this.pause();
       break;
     case 38:
-      this.ship.power(1);
+      this.ship.power(true);
       break;
     case 39:
       this.ship.rotateClockwise();
       break;
     case 40:
-      this.ship.power(-1);
+      this.ship.power();
       break;
     case 37:
       this.ship.rotateCounterClockwise();
       break;
     case 32:
-      event.preventDefault();
       this.fireBullet();
     }
   };
 
-  Game.prototype.move = function() {
+  Game.prototype.move = function(currentFps) {
     this.asteroids.forEach(function(asteroid) {
-      asteroid.move();
+      asteroid.move(currentFps);
     });
     this.bullets.forEach(function(bullet) {
-      bullet.move();
+      bullet.move(currentFps);
     });
-    this.ship.move();
+    this.ship.move(currentFps);
   };
 
   Game.prototype.checkCollision = function() {
@@ -169,7 +173,6 @@
 
   Game.prototype.pause = function() {
     this.paused = true;
-    clearInterval(this.interval);
   };
 
   Game.prototype.removeAsteroid = function(asteroidIndex) {
@@ -186,20 +189,24 @@
 
   Game.prototype.restart = function() {
     document.removeEventListener('keydown', this.keyHandler);
-    var newGame = new Game(this.context, this.height, this.width, this.ui);
+    var newGame = new Game(this.context, this.height, this.width, this.ui.clone());
     setTimeout(function() {
       newGame.start();
     }, 0);
   };
 
-  Game.prototype.step = function() {
-    this.move();
-    this.draw();
-    this.checkCollision();
-    this.checkShots();
-    this.cleanUp();
-    this.resetAsteroids();
-    this.showScore();
+  Game.prototype.step = function(currentTime) {
+    var currentFps = this.ui.calculateFps(currentTime);
+    if (!this.paused) {
+      this.move(currentFps);
+      this.draw();
+      this.checkCollision();
+      this.checkShots();
+      this.cleanUp();
+      this.resetAsteroids();
+      this.showScore();
+    }
+    window.requestAnimationFrame(this.rafCallback);
   };
 
   Game.prototype.showScore = function() {
@@ -216,14 +223,15 @@
     if (this.over) {
       return this.restart();
     }
-    this.paused = false;
+    if (this.paused) {
+      this.paused = false;
+    }
     this.ui.hide();
     this.resetAsteroids();
-    this.interval = setInterval(Game.prototype.step.bind(this), FPS);
   };
 
   Game.prototype.stop = function() {
-    clearInterval(this.interval);
+    this.paused = true;
     this.over = true;
     this.ui.showGameOver();
   };
