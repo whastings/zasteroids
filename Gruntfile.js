@@ -35,7 +35,7 @@ module.exports = function(grunt) {
       build: {
         files: {
           'build/app.js': [
-            'bower_components/underscore/underscore.js',
+            'bower_components/underscore/underscore.js', 'js/raf_polyfill.js',
             'js/inherits.js', 'js/moving_object.js', 'js/asteroid.js',
             'js/asteroid_pool.js', 'js/bullet.js', 'js/ship.js',
             'js/game.js', 'js/game_ui.js'
