@@ -39,7 +39,7 @@
   Game.prototype.cleanUp = function() {
     var that = this;
     this.cleanUpAsteroids();
-    this.checkOutOfBounds(this.bullets);
+    this.cleanUpBullets();
     if (this.isOutOfBounds(this.ship)) {
       this.ship.wrapAround(this.width, this.height);
     }
@@ -49,6 +49,15 @@
     for (var i = (this.asteroids.length - 1); i >= 0; i--) {
       if (this.isOutOfBounds(this.asteroids[i])) {
         this.removeAsteroid(i);
+      }
+    }
+  };
+
+  Game.prototype.cleanUpBullets = function() {
+    for (var i = (this.bullets.length - 1); i >= 0; i--) {
+      if (this.isOutOfBounds(this.bullets[i])) {
+        this.ship.returnBullet(this.bullets[i]);
+        this.bullets.splice(i, 1);
       }
     }
   };
@@ -137,29 +146,9 @@
         }
       }
     }, this);
-    removeTheseBullets.forEach(function(bullet){
-      that.bullets.splice(bullet, 1);
-    });
-  };
-
-  Game.prototype.checkOutOfBounds = function(array) {
-    var that = this;
-    this.checkRemove(array, function(item) {
-      return that.isOutOfBounds(item);
-    });
-  };
-
-  Game.prototype.checkRemove = function(array, callback) {
-    var removeThese = [];
-    var that = this;
-
-    array.forEach(function(item, itemI) {
-      if (callback(item)) {
-        removeThese.push(itemI);
-      }
-    });
-    removeThese.forEach(function(item){
-      array.splice(item, 1);
+    removeTheseBullets.reverse().forEach(function(bulletIndex) {
+      var bullet = that.bullets.splice(bulletIndex, 1)[0];
+      that.ship.returnBullet(bullet);
     });
   };
 

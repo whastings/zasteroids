@@ -1,8 +1,9 @@
 (function(root) {
   "use strict";
 
-  var Asteroids = root.Asteroids = root.Asteroids || {};
-  var Bullet = Asteroids.Bullet;
+  var Asteroids = root.Asteroids = root.Asteroids || {},
+      Bullet = Asteroids.Bullet,
+      BulletPool = Asteroids.BulletPool;
 
   var RADIUS = 30,
       MAX_POWER = 200,
@@ -14,6 +15,7 @@
     this.image = new Image();
     this.image.src = 'images/penguin.png';
     this.currentDirection = 45;
+    this.pool = new BulletPool();
     this.speed = 0;
   };
   Ship.inherits(Asteroids.MovingObject);
@@ -33,7 +35,7 @@
   };
 
   Ship.prototype.fireBullet = function(){
-    return new Bullet(this.pos.slice(), this.vel.slice());
+    return this.pool.allocate(this.pos, this.vel);
   };
 
   Ship.prototype.power = function(increase) {
@@ -45,6 +47,10 @@
       this.speed = MAX_POWER;
     }
     this.updateVelocity();
+  };
+
+  Ship.prototype.returnBullet = function(bullet) {
+    this.pool.free(bullet);
   };
 
   Ship.prototype.rotate = function(clockwise) {
