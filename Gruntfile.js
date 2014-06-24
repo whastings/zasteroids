@@ -1,5 +1,18 @@
 module.exports = function(grunt) {
   "use strict";
+
+  var timestamp = Date.now(),
+      builtScript = 'build/app-' + timestamp + '.js';
+
+  var jsFiles = [
+    'bower_components/underscore/underscore.js', 'js/raf_polyfill.js',
+    'js/inherits.js', 'js/moving_object.js', 'js/asteroid.js',
+    'js/asteroid_pool.js', 'js/bullet.js', 'js/bullet_pool.js',
+    'js/ship.js', 'js/game.js', 'js/game_ui.js'
+  ];
+  var uglifyFiles = {};
+  uglifyFiles[builtScript] = jsFiles;
+
   grunt.initConfig({
     clean: {
       build: {
@@ -27,20 +40,13 @@ module.exports = function(grunt) {
       },
       local_dependencies: {
         files: {
-          'build/index.html': ['build/app.js']
+          'build/index.html': [builtScript]
         }
       }
     },
     uglify: {
       build: {
-        files: {
-          'build/app.js': [
-            'bower_components/underscore/underscore.js', 'js/raf_polyfill.js',
-            'js/inherits.js', 'js/moving_object.js', 'js/asteroid.js',
-            'js/asteroid_pool.js', 'js/bullet.js', 'js/bullet_pool.js',
-            'js/ship.js', 'js/game.js', 'js/game_ui.js'
-          ]
-        }
+        files: uglifyFiles
       }
     }
   });
