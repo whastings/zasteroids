@@ -7,10 +7,22 @@
           rel="stylesheet" type="text/css">
     <meta charset='uft-8'>
     <script src="vendor/js/inject.min.js"></script>
+    <!-- build:remove -->
     <script>
       Inject.setModuleRoot('js');
       require.run('main');
     </script>
+    <!-- /build -->
+
+    <!-- build:template
+    <script>
+      Inject.setModuleRoot('/');
+      Inject.setExpires(3600);
+
+      Inject.addFileRule(/.+/, '<%= appFile %>');
+      require.run('main');
+    </script>
+    /build -->
   </head>
   <body>
     <canvas id="game-canvas"></canvas>
@@ -26,25 +38,11 @@
       <div class="message-body">Press ENTER to play.</div>
     </div>
 
-    <!-- injector:js -->
+    <!-- build:remove -->
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="js/inherits.js"></script>
     <script src="js/raf_polyfill.js"></script>
-    <!--<script src="js/inherits.js"></script>-->
-    <!--<script src="js/raf_polyfill.js"></script>-->
-    <!--<script src="js/moving_object.js"></script>-->
-    <!--<script src="js/asteroid.js"></script>-->
-    <!--<script src="js/asteroid_pool.js"></script>-->
-    <!--<script src="js/bullet.js"></script>-->
-    <!--<script src="js/bullet_pool.js"></script>-->
-    <!--<script src="js/ship.js"></script>-->
-    <!--<script src="js/game.js"></script>-->
-    <!--<script src="js/game_ui.js"></script>-->
-    <!-- endinjector -->
-    <script>
-      (function() {
-      })();
-    </script>
+    <!-- /build -->
 
     <a href="https://github.com/whastings/zasteroids">
       <img style="position: absolute; top: 0; right: 0; border: 0;"

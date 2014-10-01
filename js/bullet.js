@@ -1,4 +1,5 @@
 define(
+  'bullet',
   ['moving_object'],
   function(MovingObject) {
     "use strict";

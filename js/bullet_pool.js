@@ -1,4 +1,5 @@
 define(
+  'bullet_pool',
   ['bullet'],
   function(Bullet) {
     'use strict';

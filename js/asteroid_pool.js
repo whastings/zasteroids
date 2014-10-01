@@ -1,4 +1,5 @@
 define(
+  'asteroid_pool',
   ['asteroid'],
   function(Asteroid) {
     var AsteroidPool = function(max, screenWidth, screenHeight) {

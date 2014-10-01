@@ -1,4 +1,5 @@
 define(
+  'game',
   ['asteroid', 'asteroid_pool', 'ship'],
   function(Asteroid, AsteroidPool, Ship) {
     "use strict";

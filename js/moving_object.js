@@ -1,4 +1,5 @@
 define(
+  'moving_object',
   function() {
     "use strict";
 

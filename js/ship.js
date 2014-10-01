@@ -1,4 +1,5 @@
 define(
+  'ship',
   ['bullet', 'bullet_pool', 'moving_object'],
   function(Bullet, BulletPool, MovingObject) {
     "use strict";

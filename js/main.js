@@ -1,4 +1,5 @@
 define(
+  'main',
   ['game', 'game_ui'],
   function(Game, GameUI) {
     var canvas = document.getElementById('game-canvas'),

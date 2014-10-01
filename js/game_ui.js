@@ -1,4 +1,5 @@
 define(
+  'game_ui',
   function() {
     'use strict';
 

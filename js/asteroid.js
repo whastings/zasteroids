@@ -1,4 +1,5 @@
 define(
+  'asteroid',
   ['moving_object'],
   function(MovingObject) {
     "use strict";
