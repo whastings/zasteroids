@@ -23,7 +23,7 @@
 
     <!-- injector:js -->
     <script src="bower_components/underscore/underscore.js"></script>
-    <script src="js/inherits.js"></script>
+    <script src="node_modules/protomatter/protomatter.js"></script>
     <script src="js/raf_polyfill.js"></script>
     <script src="js/moving_object.js"></script>
     <script src="js/asteroid.js"></script>
@@ -44,11 +44,11 @@
         canvas.setAttribute('height', gameHeight);
         canvas.setAttribute('width', gameWidth);
 
-        new Asteroids.Game(
+        Asteroids.Game.create(
           canvas.getContext('2d'),
           gameHeight,
           gameWidth,
-          new Asteroids.GameUI(messageBox)
+          Asteroids.GameUI.create(messageBox)
         );
       })();
     </script>
