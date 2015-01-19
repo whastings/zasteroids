@@ -25,34 +25,17 @@
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="node_modules/protomatter/protomatter.js"></script>
     <script src="node_modules/baconjs/dist/Bacon.js"></script>
+    <script src="node_modules/traceur/bin/traceur.js"></script>
+    <script src="node_modules/es6-module-loader/dist/es6-module-loader.js"></script>
+    <script src="node_modules/systemjs/dist/system.js"></script>
     <script src="js/raf_polyfill.js"></script>
-    <script src="js/moving_object.js"></script>
-    <script src="js/asteroid.js"></script>
-    <script src="js/asteroid_pool.js"></script>
-    <script src="js/bullet.js"></script>
-    <script src="js/bullet_pool.js"></script>
-    <script src="js/ship.js"></script>
-    <script src="js/game.js"></script>
-    <script src="js/game_ui.js"></script>
-    <!-- endinjector -->
     <script>
-      (function() {
-        var canvas = document.getElementById('game-canvas'),
-            gameHeight = document.documentElement.clientHeight,
-            gameWidth = document.documentElement.clientWidth,
-            messageBox = document.querySelector('.message-box'),
-            context = canvas.getContext('2d');
-
-        canvas.setAttribute('height', gameHeight);
-        canvas.setAttribute('width', gameWidth);
-
-        Asteroids.GameUI.create(
-          context,
-          Asteroids.Game.create(gameHeight, gameWidth),
-          messageBox
-        );
-      })();
+      System.config({
+        baseURL: '/js/'
+      });
+      System.import('app');
     </script>
+    <!-- endinjector -->
 
     <a href="https://github.com/whastings/zasteroids">
       <img style="position: absolute; top: 0; right: 0; border: 0;"
