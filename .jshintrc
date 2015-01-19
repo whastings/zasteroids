@@ -1,0 +1,28 @@
+{
+  "browser": true,
+  "camelcase": true,
+  "debug": true,
+  "eqeqeq": true,
+  "eqnull": true,
+  "expr": true,
+  "globalstrict": true,
+  "predef": [
+    "_",
+    "beforeEach",
+    "Bacon",
+    "console",
+    "document",
+    "expect",
+    "exports",
+    "it",
+    "module",
+    "Protomatter",
+    "require",
+    "window"
+  ],
+  "proto": true,
+  "strict": false,
+  "sub": true,
+  "undef": true
+}
+

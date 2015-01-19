@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/whastings/zasteroids",
   "dependencies": {
-    "protomatter": "whastings/protomatter.js#aa927b3b9"
+    "protomatter": "whastings/protomatter.js#aa927b3b9",
+    "baconjs": "~0.7.42"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

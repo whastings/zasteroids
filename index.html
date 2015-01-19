@@ -24,6 +24,7 @@
     <!-- injector:js -->
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="node_modules/protomatter/protomatter.js"></script>
+    <script src="node_modules/baconjs/dist/Bacon.js"></script>
     <script src="js/raf_polyfill.js"></script>
     <script src="js/moving_object.js"></script>
     <script src="js/asteroid.js"></script>
@@ -39,16 +40,16 @@
         var canvas = document.getElementById('game-canvas'),
             gameHeight = document.documentElement.clientHeight,
             gameWidth = document.documentElement.clientWidth,
-            messageBox = document.querySelector('.message-box');
+            messageBox = document.querySelector('.message-box'),
+            context = canvas.getContext('2d');
 
         canvas.setAttribute('height', gameHeight);
         canvas.setAttribute('width', gameWidth);
 
-        Asteroids.Game.create(
-          canvas.getContext('2d'),
-          gameHeight,
-          gameWidth,
-          Asteroids.GameUI.create(messageBox)
+        Asteroids.GameUI.create(
+          context,
+          Asteroids.Game.create(gameHeight, gameWidth),
+          messageBox
         );
       })();
     </script>
