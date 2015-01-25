@@ -21,27 +21,9 @@
       <div class="message-body">Press ENTER to play.</div>
     </div>
 
-    <!-- injector:js -->
-    <script src="app-1403581687539.js"></script>
-    <!-- endinjector -->
-    <script>
-      (function() {
-        var canvas = document.getElementById('game-canvas'),
-            gameHeight = document.documentElement.clientHeight,
-            gameWidth = document.documentElement.clientWidth,
-            messageBox = document.querySelector('.message-box');
-
-        canvas.setAttribute('height', gameHeight);
-        canvas.setAttribute('width', gameWidth);
-
-        new Asteroids.Game(
-          canvas.getContext('2d'),
-          gameHeight,
-          gameWidth,
-          new Asteroids.GameUI(messageBox)
-        );
-      })();
-    </script>
+    <!-- inject:js -->
+    <script src="app-dc34e7ef.js"></script>
+    <!-- endinject -->
 
     <a href="https://github.com/whastings/zasteroids">
       <img style="position: absolute; top: 0; right: 0; border: 0;"
