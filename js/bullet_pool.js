@@ -1,25 +1,26 @@
 import Bullet from './bullet';
 
 var BulletPool = Protomatter.create({
-  init: function() {
+  init() {
     this.pool = [];
   },
 
-  allocate: function(pos, vel) {
+  allocate(pos, vel) {
+    var bullet;
     if (this.pool.length === 0) {
       this.createInstance();
     }
-    var bullet = this.pool.shift();
+    bullet = this.pool.shift();
     bullet.reset(pos, vel);
     return bullet;
   },
 
-  free: function(bullet) {
+  free(bullet) {
     this.pool.push(bullet);
   },
 
   private: {
-    createInstance: function() {
+    createInstance() {
       this.pool.push(Bullet.create([0, 0], [0, 0]));
     }
   }

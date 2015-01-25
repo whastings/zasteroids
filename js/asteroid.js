@@ -2,22 +2,23 @@
 
 import MovingObject from './moving_object';
 
-var COLOR = 'gray';
-var RADIUS = 40;
-var SPEED_FACTOR = 150;
+var COLOR = 'gray',
+    GRAVE_IMAGES,
+    RADIUS = 40,
+    SPEED_FACTOR = 150;
 
-var GRAVE_IMAGES = [
+GRAVE_IMAGES = [
   'images/gravestone-cross.png',
   'images/gravestone-face.png',
   'images/gravestone-rip.png'
-].map(function(imageSrc) {
+].map((imageSrc) => {
   var image = new Image();
   image.src = imageSrc;
   return image;
 });
 
 var Asteroid = MovingObject.extend({
-  init: function(pos, vel) {
+  init(pos, vel) {
     this.callSuper('init', pos, vel, RADIUS, COLOR);
     this.image = new Image();
     this.image.src = 'images/zombie.png';
@@ -25,30 +26,30 @@ var Asteroid = MovingObject.extend({
     this.moving = false;
   },
 
-  draw: function(context) {
+  draw(context) {
     return this.moving ? this.drawZombie(context) : this.drawGrave(context);
   },
 
-  isCollidedWith: function(otherObject) {
+  isCollidedWith(otherObject) {
     if (this.moving) {
       return this.callSuper('isCollidedWith', otherObject);
     }
     return false;
   },
 
-  move: function(currentFps) {
+  move(currentFps) {
     if (this.moving) {
       this.callSuper('move', currentFps);
     }
   },
 
-  reset: function(dimX, dimY) {
+  reset(dimX, dimY) {
     this.setRandom(dimX, dimY);
     this.moving = false;
     this.scheduleMovement();
   },
 
-  updateDirection: function(targetPos) {
+  updateDirection(targetPos) {
     var aX = this.pos[0],
         aY = this.pos[1],
         tX = targetPos[0],
@@ -58,20 +59,20 @@ var Asteroid = MovingObject.extend({
     this.currentDirection = Math.atan2(opposite, adjacent);
   },
 
-  randomAsteroid: function(dimX, dimY) {
+  randomAsteroid(dimX, dimY) {
     var asteroid = this.create([0, 0], 0);
     asteroid.setRandom(dimX, dimY);
     return asteroid;
   },
 
-  randomVec: function(){
+  randomVec(){
     var vel = Math.random() * SPEED_FACTOR + 20;
     vel *= Math.floor(Math.random() * 2) === 1 ? 1 : -1;
     return vel;
   },
 
   private: {
-    drawGrave: function(context) {
+    drawGrave(context) {
       if (this.graveChoice === undefined) {
         this.graveChoice = Math.floor(Math.random() * GRAVE_IMAGES.length);
       }
@@ -83,7 +84,7 @@ var Asteroid = MovingObject.extend({
       );
     },
 
-    drawZombie: function(context) {
+    drawZombie(context) {
       var size = Math.floor(RADIUS * 2.1);
       context.save();
       context.translate(this.pos[0], this.pos[1]);
@@ -96,13 +97,13 @@ var Asteroid = MovingObject.extend({
       context.restore();
     },
 
-    scheduleMovement: function() {
-      setTimeout(function() {
+    scheduleMovement() {
+      setTimeout(() => {
         this.moving = true;
-      }.bind(this), 1500);
+      }, 1500);
     },
 
-    setRandom: function(dimX, dimY) {
+    setRandom(dimX, dimY) {
       this.pos[0] = Math.floor(Math.random() * (dimX - 200) + 100);
       this.pos[1] = Math.floor(Math.random() * (dimY - 200) + 100);
       this.vel[0] = Asteroid.randomVec();

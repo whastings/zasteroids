@@ -8,19 +8,19 @@ var COLOR = "white",
     SPEED_MULTIPLIER = 10;
 
 var Bullet = MovingObject.extend({
-  init: function(pos, vel) {
+  init(pos, vel) {
     this.callSuper('init', pos, [0, 0], RADIUS, COLOR);
     this.setVelocity(vel);
   },
 
-  reset: function(pos, vel) {
+  reset(pos, vel) {
     this.pos[0] = pos[0];
     this.pos[1] = pos[1];
     this.setVelocity(vel);
   },
 
   private: {
-    setVelocity: function(vel) {
+    setVelocity(vel) {
       this.vel[0] = vel[0] * SPEED_MULTIPLIER;
       this.vel[1] = vel[1] * SPEED_MULTIPLIER;
     }

@@ -7,6 +7,7 @@
   "esnext": true,
   "expr": true,
   "globalstrict": true,
+  "loopfunc": true,
   "predef": [
     "_",
     "beforeEach",

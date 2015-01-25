@@ -1,17 +1,19 @@
 'use strict';
 
-var KEY_EVENTS = {
+var RAF = window.requestAnimationFrame,
+    SCORE_X = 50,
+    KEY_EVENTS;
+
+KEY_EVENTS = {
   32: 'shoot',
   37: 'rotateCounterClockwise',
   38: 'speedUp',
   39: 'rotateClockwise',
   40: 'slowDown'
 };
-var RAF = window.requestAnimationFrame,
-    SCORE_X = 50;
 
 var GameUI = Protomatter.create({
-  init: function(context, game, element) {
+  init(context, game, element) {
     this.context = context;
     this.game = game;
     this.element = element;
@@ -21,20 +23,20 @@ var GameUI = Protomatter.create({
     this.createEventStreams();
   },
 
-  restartGame: function() {
+  restartGame() {
     this.hide();
     this.game.reset();
   },
 
   private: {
-    checkGameOver: function(status) {
+    checkGameOver(status) {
       if (!status) {
         return;
       }
       this.showGameOver();
     },
 
-    createEventStreams: function() {
+    createEventStreams() {
       var keyStream = createKeyStream(),
           overStream = this.game.getOverStream(),
           scoreStream = this.game.getScoreStream(),
@@ -52,21 +54,21 @@ var GameUI = Protomatter.create({
       scoreStream.onValue(this, 'showScore');
     },
 
-    hide: function() {
+    hide() {
       this.element.style.display = 'none';
     },
 
-    show: function() {
+    show() {
       this.element.style.display = 'block';
     },
 
-    showGameOver: function() {
+    showGameOver() {
       this.messageHeader.innerHTML = 'GAME OVER';
       this.messageBody.innerHTML = 'Press ENTER to play again.';
       this.show();
     },
 
-    showScore: function(score) {
+    showScore(score) {
       this.context.fillStyle = '#ff0000';
       this.context.font = 'normal 20pt Finger Paint';
       this.context.fillText(
@@ -90,21 +92,15 @@ function createGameControlStreams(keyStream, goStream, game) {
         stream;
     eventKeyCode = parseInt(eventKeyCode, 10);
     stream = keyStream
-      .filter(function(keyCode) {
-        return keyCode === eventKeyCode;
-      })
+      .filter(keyCode => keyCode === eventKeyCode)
       .filter(goStream.toProperty());
-    stream.onValue(function() {
-      game[method]();
-    });
+    stream.onValue(game, method);
   });
 }
 
 function createKeyStream() {
   return Bacon.fromEventTarget(document, 'keydown')
-    .filter(function(event) {
-      return event.keyCode in KEY_EVENTS || event.keyCode === 13;
-    })
+    .filter(event => event.keyCode in KEY_EVENTS || event.keyCode === 13)
     .doAction('.preventDefault')
     .map('.keyCode');
 }
@@ -112,9 +108,7 @@ function createKeyStream() {
 function createPauseStream(keyStream, overStream) {
   var paused = true;
   return keyStream
-    .filter(function(keyCode) {
-      return keyCode === 13;
-    })
+    .filter(isEnter)
     .filter(overStream.not().toProperty(true))
     .map(function() {
       paused = !paused;
@@ -140,9 +134,7 @@ function createRafStream() {
 
 function createRestartStream(keyStream, overStream) {
   return keyStream
-    .filter(function(keyCode) {
-      return keyCode === 13;
-    })
+    .filter(isEnter)
     .filter(overStream.toProperty());
 }
 
@@ -153,6 +145,10 @@ function fpsCalculator() {
     prevTime = currentTime;
     return fps;
   };
+}
+
+function isEnter(keyCode) {
+  return keyCode === 13;
 }
 
 export default GameUI;

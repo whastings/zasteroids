@@ -1,22 +1,22 @@
 'use strict';
 
 var MovingObject = Protomatter.create({
-  init: function(pos, vel, radius, color) {
+  init(pos, vel, radius, color) {
     this.pos = pos;
     this.vel = vel;
     this.radius = radius;
     this.color = color;
   },
 
-  getPos: function() {
+  getPos() {
     return this.pos;
   },
 
-  getRadius: function() {
+  getRadius() {
     return this.radius;
   },
 
-  move: function(currentFps) {
+  move(currentFps) {
     if (!this.isMoving()) {
       return;
     }
@@ -28,7 +28,7 @@ var MovingObject = Protomatter.create({
     this.pos[1] = posY + velY;
   },
 
-  draw: function(context) {
+  draw(context) {
     context.fillStyle = this.color;
     context.beginPath();
 
@@ -44,7 +44,7 @@ var MovingObject = Protomatter.create({
     context.fill();
   },
 
-  isCollidedWith: function(otherObject) {
+  isCollidedWith(otherObject) {
     var otherPos = otherObject.getPos(),
         x1 = this.pos[0],
         y1 = this.pos[1],
@@ -55,12 +55,12 @@ var MovingObject = Protomatter.create({
     return (distance < (this.radius + otherObject.getRadius()));
   },
 
-  isMoving: function() {
+  isMoving() {
     return this.vel[0] !== 0 || this.vel[1] !== 0;
   },
 
   private: {
-    findDistance: function(x1, y1, x2, y2) {
+    findDistance(x1, y1, x2, y2) {
       return Math.sqrt(
         Math.pow((y2 - y1), 2) +
         Math.pow((x2 - x1), 2)
