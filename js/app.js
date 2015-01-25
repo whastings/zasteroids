@@ -10,7 +10,7 @@ var canvas = document.getElementById('game-canvas'),
 canvas.setAttribute('height', gameHeight);
 canvas.setAttribute('width', gameWidth);
 
-GameUI.create(
+export default GameUI.create(
   context,
   Game.create(gameHeight, gameWidth),
   messageBox
